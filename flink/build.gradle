@@ -1,0 +1,9 @@
+ext {
+    flinkVersion = '1.1.4'
+}
+
+dependencies {
+    compile "org.apache.flink:flink-scala_$scalaVersion:$flinkVersion"
+    compile "org.apache.flink:flink-streaming-scala_$scalaVersion:$flinkVersion"
+    compile "org.apache.flink:flink-clients_$scalaVersion:$flinkVersion"
+}

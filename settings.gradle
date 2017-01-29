@@ -1,3 +1,4 @@
 rootProject.name = 'streaming-examples'
 include 'topic-writer'
 include 'spark'
+include 'flink'
