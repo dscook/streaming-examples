@@ -1,3 +1,4 @@
 dependencies {
-    compile 'org.apache.kafka:kafka_2.12:0.10.1.1'
+    compile "org.scala-lang:scala-library:$scalaVersionFull"
+    compile "org.apache.kafka:kafka_$scalaVersion:0.10.1.1"
 }

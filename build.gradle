@@ -1,3 +1,8 @@
+ext {
+    scalaVersion = '2.11'
+    scalaVersionFull = "$scalaVersion.8"
+}
+
 allprojects {
     group = 'uk.co.bitcat.streaming'
     version = '0.1'
@@ -8,9 +13,5 @@ subprojects {
 
     repositories {
         mavenCentral()
-    }
-
-    dependencies {
-        compile 'org.scala-lang:scala-library:2.12.1'
     }
 }

@@ -8,10 +8,11 @@ import scala.io.Source
 
 object TopicWriter {
   def main(args: Array[String]) {
-    val source = Source.fromResource("readings.csv")
-    val lines : Iterator[String] = source.getLines
 
-    val props = new Properties
+    val stream = getClass.getResourceAsStream("/readings.csv")
+    val lines = Source.fromInputStream(stream).getLines()
+
+    val props = new Properties()
     props.put("bootstrap.servers", "localhost:9092")
     props.put("client.id", "Pollution")
     props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
@@ -23,7 +24,7 @@ object TopicWriter {
       producer.send(data)
     }
 
-    producer.close
-    source.close
+    producer.close()
+    stream.close()
   }
 }
