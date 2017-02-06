@@ -11,10 +11,10 @@ import org.apache.spark.streaming.kafka010._
 
 object Spark {
 
-  case class Reading(time: String, pollution: Int)
+  private case class Measurement(time: String, pollution: Int)
 
   def main(args: Array[String]) {
-    val conf = new SparkConf().setAppName("Simple Application").setMaster("local[*]")
+    val conf = new SparkConf().setAppName("Pollution Monitor").setMaster("local[*]")
 
     // Setting the batch interval over which we perform our pollution average calculation
     val streamingContext = new StreamingContext(conf, Seconds(10))
@@ -23,7 +23,7 @@ object Spark {
       "bootstrap.servers" -> "localhost:9092",
       "key.deserializer" -> classOf[StringDeserializer],
       "value.deserializer" -> classOf[StringDeserializer],
-      "group.id" -> "pollution_reader",
+      "group.id" -> "pollution_consumer",
       "auto.offset.reset" -> "latest",
       "enable.auto.commit" -> (false: java.lang.Boolean)
     )
@@ -44,17 +44,11 @@ object Spark {
 
       val row = rdd
         .map(_.value.split(","))
-        .map(attributes => Reading(attributes(0), attributes(1).trim.toInt))
+        .map(attributes => Measurement(attributes(0).trim, attributes(1).trim.toInt))
         .toDF()
         .agg(avg($"pollution") as "pollutionAverage")
-        .filter($"pollutionAverage" > 80.0)
-        .collect();
-
-      if (row.length > 0) {
-        // Raise alert. For instance call to REST endpoint, email, SMS and so on ..
-        println(row(0))
-      }
-
+        .filter($"pollutionAverage" > 75.0)
+        .foreach(row => println("Raise alert for pollution level: " + row(0)))
     }
 
     streamingContext.start()

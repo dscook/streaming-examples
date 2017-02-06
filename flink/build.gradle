@@ -5,5 +5,5 @@ ext {
 dependencies {
     compile "org.apache.flink:flink-scala_$scalaVersion:$flinkVersion"
     compile "org.apache.flink:flink-streaming-scala_$scalaVersion:$flinkVersion"
-    compile "org.apache.flink:flink-clients_$scalaVersion:$flinkVersion"
+    compile "org.apache.flink:flink-connector-kafka-0.9_$scalaVersion:$flinkVersion"
 }
