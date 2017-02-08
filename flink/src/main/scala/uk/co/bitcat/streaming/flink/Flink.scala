@@ -14,8 +14,6 @@ import uk.co.bitcat.streaming.flink.watermark.TwoSecondDelayWatermark
 
 object Flink {
 
-  case class Reading(time: String, pollution: Int)
-
   def main(args: Array[String]) {
 
     val env = StreamExecutionEnvironment.getExecutionEnvironment
