@@ -31,11 +31,11 @@ object Flink {
         (0L, 0.0, 0), // (Window End Time, To Store Mean, Count)
         (acc: (Long, Double, Int), m: Measurement) => { (0L, acc._2 + m.pollution, acc._3 + 1) },
         ( window: TimeWindow,
-          counts: Iterable[(Long, Double, Int)],
+          accs: Iterable[(Long, Double, Int)],
           out: Collector[(Long, Double, Int)] ) =>
         {
-          val count = counts.iterator.next()
-          out.collect((window.getEnd, count._2/count._3, count._3))
+          val acc = accs.iterator.next()
+          out.collect((window.getEnd, acc._2/acc._3, acc._3))
         }
       )
       .filter(_._2 > 75.0)
